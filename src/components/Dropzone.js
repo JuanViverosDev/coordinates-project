@@ -5,7 +5,11 @@ import { useDispatch } from "react-redux/es/exports";
 const Dropzone = () => {
   const dispatch = useDispatch();
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "PNG, JPG, JPEG",
+    accept: {
+      'image/png': ['.png'],
+      'image/jpg': ['.jpg'],
+      'image/jpeg': ['.jpeg'],
+    },
     onDrop: (acceptedFiles) => {
       dispatch(
         SET_FILES(

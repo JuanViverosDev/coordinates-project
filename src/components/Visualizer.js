@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectFiles } from "../store/features/FilesSlice";
 import { useEyeDrop } from "react-eyedrop/dist/useEyeDrop";
@@ -29,6 +29,26 @@ const Visualizer = () => {
 
   const { rgb, hex } = state.pickedColor;
 
+  
+  let imagecoord = useRef();
+  
+  const onMousePos = ( evt) => {
+    var ClientRect = imagecoord.current.getBoundingClientRect();
+    
+    setCoordinates({ x: Math.round(evt.clientX - ClientRect.left),
+   y: Math.round(evt.clientY - ClientRect.top)})
+  }
+
+  const drawImg = () => {
+    const ctx = imagecoord.getContext("2d");
+    ctx.drawImage(img[0].preview, 0, 0, imagecoord.width, imagecoord.height);
+  }
+
+  const [coordinates, setCoordinates] = useState({
+    x: 0,
+    y: 0,
+  });
+  
   return (
     <div>
       {!img ? (
@@ -47,12 +67,12 @@ const Visualizer = () => {
               src={img[0].preview}
               alt="img"
               className="object-cover max-h-full max-w-full"
-            />
+              onLoad={drawImg} ref={imagecoord} onMouseMove={onMousePos}
+            />            
           </div>
-
           <div className="flex flex-col">
             <h1 className="text-neutral-200 font-semibold text-center bg-neutral-800 p-2 text-lg">
-              Color picker
+              Coordinates: (X: {coordinates.x} - Y: {coordinates.y})
             </h1>
             <div className="grid grid-cols-3 text-neutral-200 bg-neutral-500 rounded-b-xl">
               <button

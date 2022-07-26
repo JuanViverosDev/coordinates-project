@@ -19,7 +19,7 @@ const Main = () => {
 
   return (
     <div className="bg-neutral-900 h-screen flex flex-col items-center">
-      <div className="bg-neutral-700 p-5 rounded-xl my-10">
+      <div className="bg-neutral-700 p-5 rounded-xl my-5">
         <Title />
       </div>
       <div className="p-10 shadow-lg rounded-xl grid grid-cols-2 bg-neutral-800">
